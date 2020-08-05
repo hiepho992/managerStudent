@@ -35,6 +35,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('create', 'TeacherController@create')->name('teacher.create');
         Route::get('delete/{id}', 'TeacherController@destroy')->name('teacher.delete');
         Route::post('edit', 'TeacherController@edit')->name('teacher.edit');
+        Route::get('show/{id}', 'TeacherController@show')->name('teacher.show');
+
     });
 
     Route::group(['prefix' => 'student'], function () {

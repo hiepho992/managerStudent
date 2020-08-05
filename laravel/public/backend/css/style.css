@@ -3145,7 +3145,23 @@ div#graph1, div#graph4, div#graph5, div#graph6, div#graph7, div#graph8, div#grap
 }
 }
 
-.modal-dialog{
-    width: 700px;
-    line-height: 40px;
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    width:200px;
+    height:200px;
+    border: 1px solid #ccc;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 60px;
+    text-align: center;
+}
+#blah {
+    display: none;
+}
+.divUpload {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
 }

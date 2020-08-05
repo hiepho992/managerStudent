@@ -68,9 +68,11 @@ class TeacherController extends Controller
      * @param  \App\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function show(Teacher $teacher)
+    public function show($id)
     {
-        //
+        $show = Teacher::findOrfail($id);
+
+        return response()->json($show);
     }
 
     /**

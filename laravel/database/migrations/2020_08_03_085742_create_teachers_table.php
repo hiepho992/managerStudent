@@ -28,7 +28,7 @@ class CreateTeachersTable extends Migration
             $table->string('moName')->nullable();
             $table->string('moPhone')->nullable();
             $table->string('specialize');
-            $table->boolean('active')->default(1);
+            $table->boolean('active')->default(true);
             $table->softDeletes();
             $table->timestamps();
         });
