@@ -32,6 +32,7 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::group(['prefix' => 'teacher'], function () {
         Route::get('list', 'TeacherController@index')->name('teacher.list');
+        Route::get('listgv', 'TeacherController@apiGetGV')->name('teacher.getGV');
         Route::post('create', 'TeacherController@create')->name('teacher.create');
         Route::get('delete/{id}', 'TeacherController@destroy')->name('teacher.delete');
         Route::post('edit', 'TeacherController@edit')->name('teacher.edit');
@@ -46,3 +47,5 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('edit', 'StudentController@edit')->name('student.edit');
     });
 });
+
+Route::get('/teacher/list', 'ViewController@index')->name('view.teacher');

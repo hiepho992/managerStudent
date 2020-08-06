@@ -4,9 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Teacher;
 use Illuminate\Http\Request;
+use App\Repositories\TeacherRepository;
 
 class TeacherController extends Controller
 {
+    private $teacherRepository;
+
+    public function __construct(TeacherRepository $teacherRepository)
+    {
+        $this->teacherRepository = $teacherRepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,38 +21,24 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teachers = Teacher::paginate(10);
-        return view('admin.teachers.list', compact('teachers'));
+
+        return view('admin.teachers.list');
     }
 
+    public function apiGetGV()
+    {
+        $teachers = $this->teacherRepository->all();
+
+        return response()->json($teachers);
+    }
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $teachers = new Teacher();
-        $teachers->fullName = $request->name;
-        $teachers->dateOfBirth = $request->dateOfBirth;
-        $teachers->gender = $request->gender;
-        $teachers->nation = $request->nation;
-        $teachers->phone = $request->phone;
-        $teachers->email = $request->email;
-        $teachers->address = $request->address;
-        $teachers->faName = $request->faName;
-        $teachers->faPhone = $request->faPhone;
-        $teachers->moName = $request->moName;
-        $teachers->moPhone = $request->moPhone;
-        $teachers->specialize = $request->specialize;
-
-        if($request->hasFile('inputFile')){
-            $imageName = rand(1,9999). '.' .$request->file('inputFile')->getClientOriginalExtension();
-            $request->file('inputFile')->storeAs('public/images', $imageName);
-            $teachers->image = $imageName;
-        }
-
-        $teachers->save();
+        $teachers = $this->teacherRepository->createTeacher();
 
         return response()->json($teachers);
 
@@ -70,7 +63,7 @@ class TeacherController extends Controller
      */
     public function show($id)
     {
-        $show = Teacher::findOrfail($id);
+        $show = $this->teacherRepository->showTeacher($id);
 
         return response()->json($show);
     }
@@ -104,8 +97,8 @@ class TeacherController extends Controller
      * @param  \App\Teacher  $teacher
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
-        Teacher::destroy($id);
+        return $this->teacherRepository->deleteTeacher($id);
     }
 }

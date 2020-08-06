@@ -51,7 +51,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- Bootstrap theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
     <script src="https://kit.fontawesome.com/91752fb16b.js" crossorigin="anonymous"></script>
-
+    <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel='stylesheet'/>
 </head>
 
 <body>
@@ -149,6 +149,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="{{ asset('backend/js/jquery.scrollTo.js') }}"></script>
     <!-- morris JavaScript -->
     <script src="{{ asset('frontend/teacherJs.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function() {
             //BOX BUTTON SHOW AND CLOSE
