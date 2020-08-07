@@ -35,7 +35,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('listgv', 'TeacherController@apiGetGV')->name('teacher.getGV');
         Route::post('create', 'TeacherController@create')->name('teacher.create');
         Route::get('delete/{id}', 'TeacherController@destroy')->name('teacher.delete');
-        Route::post('edit', 'TeacherController@edit')->name('teacher.edit');
+        Route::post('update/{id}', 'TeacherController@update')->name('teacher.update');
         Route::get('show/{id}', 'TeacherController@show')->name('teacher.show');
 
     });

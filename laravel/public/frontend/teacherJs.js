@@ -7,7 +7,6 @@ teacher.showAll = function () {
         method: "GET",
         dataType: "json",
         success: function (data) {
-            console.log(data)
             $('#tbTeacher tbody').empty();
             $.each(data, function (i, v) {
                 var image = (v.image != null && v.image != '') ? v.image : "/storage/images/unnamed.jpg";
@@ -30,24 +29,25 @@ teacher.showAll = function () {
                                 onclick="teacher.deletee(${v.id})">
                                 <i class="fa fa-times text-danger text"></i>
                             </a>
-                            <a href="javascript:; type="button" class="btn btn-primary" onclick="teacher.show(${v.id})">
+                            <a href="javascript:;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#detailteacher" onclick="teacher.show(${v.id})">
                                 <i class="fas fa-external-link-alt" style="color: yellow"></i>
                             </a>
                         </td>
                     </tr>`
                 )
             })
+            $('#tbTeacher').DataTable();
         }
     });
 }
 
-function show(id) {
-
+teacher.show = function (id) {
     $.ajax({
         url: "http://127.0.0.1:8000/admin/teacher/show/" + id,
         type: "GET",
+        dataType: "json",
     }).done(function (data) {
-        $("#imageDiv").html("<img src=/storage/images/" + data['image'] + " style=width:250px>");
+        $("#imageDiv").html("<img src=/storage/images/" + data['image'] + " style=width:100%>");
         $("#nameDiv").text("Họ và tên: " + data['fullName']);
         $("#DateOBDiv").text("Ngày sinh: " + data['dateOfBirth']);
         if (data['gender'] == 0) {
@@ -63,14 +63,23 @@ function show(id) {
     });
 }
 
-teacher.uploadAvatar = function (element) {
-    let img = element.files[0];
-    let reader = new FileReader();
-    reader.onloadend = function () {
-        $("#avatar").attr("src", reader.result);
-        $("#avatar").css("display", "block");
-    }
-    reader.readAsDataURL(img);
+
+teacher.resetShow = function () {
+    $("#imageDiv").val('');
+    $("#nameDiv").val('');
+    $("#DateOBDiv").val('');
+    $("#genderDiv").val('');
+    $("#phoneDiv").val('');
+    $("#nationDiv").val('');
+    $("#specializeDiv").val('');
+    $("#addressDiv").val('');
+    $("#emailDiv").val('');
+    $("#detailteacher").modal('hide');
+}
+
+teacher.openModal = function () {
+    teacher.reset();
+    $("#addEditTeacher").modal('show');
 }
 
 teacher.save = function () {
@@ -79,40 +88,157 @@ teacher.save = function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    $.ajax({
-        url: "http://127.0.0.1:8000/admin/teacher/create",
-        type: "POST",
-        data: new FormData($('#form_input')[0]),
-        _token: '{{ csrf_token() }}',
-        contentType: false,
-        processData: false,
-    }).done(function (data) {
-        $("#addProduct").modal('hide');
-        $("#loadtable").load(" #loadtable");
-        alertify.success('Thêm thành công');
-    });
+    // if($('#frAddEditTeacher').valid()){
+    if ($('#teacherId').val() == 0) {
+        var craeteObj = {};
+        craeteObj.fullName = $('#fullName').val();
+        craeteObj.dateOfBirth = $('#dateOfBirth').val();
+        craeteObj.gender = $('#gender').val();
+        craeteObj.nation = $('#nation').val();
+        craeteObj.phone = $('#phone').val();
+        craeteObj.email = $('#email').val();
+        craeteObj.address = $('#address').val();
+        craeteObj.faName = $('#faName').val();
+        craeteObj.faPhone = $('#faPhone').val();
+        craeteObj.moName = $('#moName').val();
+        craeteObj.moPhone = $('#moPhone').val();
+        craeteObj.specialize = $('#specialize').val();
+        craeteObj.image = $('#avatar').attr("src");
+
+        $.ajax({
+            url: "http://127.0.0.1:8000/admin/teacher/create",
+            method: "POST",
+            _token: '{{ csrf_token() }}',
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(craeteObj),
+            success: function (data) {
+
+                $("#addEditTeacher").modal('hide');
+                teacher.showAll();
+                alertify.success('Thêm thành công');
+
+            }
+        });
+
+    } else {
+        var updateObj = {};
+        updateObj.fullName = $('#fullName').val();
+        updateObj.dateOfBirth = $('#dateOfBirth').val();
+        updateObj.gender = $('#gender').val();
+        updateObj.nation = $('#nation').val();
+        updateObj.phone = $('#phone').val();
+        updateObj.email = $('#email').val();
+        updateObj.address = $('#address').val();
+        updateObj.faName = $('#faName').val();
+        updateObj.faPhone = $('#faPhone').val();
+        updateObj.moName = $('#moName').val();
+        updateObj.moPhone = $('#moPhone').val();
+        updateObj.specialize = $('#specialize').val();
+        updateObj.image = $('#avatar').attr("src");
+
+        $.ajax({
+            url: `http://127.0.0.1:8000/admin/teacher/update/${updateObj.id}`,
+            method: "POST",
+            _token: '{{ csrf_token() }}',
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(updateObj),
+            success: function (data) {
+                console.log(data);
+                $("#addEditTeacher").modal('hide');
+                teacher.showAll();
+                alertify.success('Sửa thành công');
+            }
+        })
+    }
+    // }
 }
 
-function deletee(id) {
+teacher.get = function (id) {
     $.ajax({
-        url: "http://127.0.0.1:8000/admin/teacher/delete/" + id,
-        type: "GET",
-    }).done(function () {
-        $("#loadtable").load(" #loadtable");
-        alertify.success('Xóa thành công');
-    });
+        url: `http://127.0.0.1:8000/admin/teacher/show/${id}`,
+        method: "GET",
+        dataType: "json",
+        success: function (data) {
+            var avatar = (data.image != null && data.image != "") ? data.image : "/storage/images/nonamed.png";
+            if (data != null) {
+                $('#fullName').val(data.fullName);
+                $('#dateOfBirth').val(data.dateOfBirth);
+                $('#gender').val(data.gender);
+                $('#nation').val(data.nation);
+                $('#phone').val(data.phone);
+                $('#email').val(data.email);
+                $('#address').val(data.address);
+                $('#faName').val(data.faName);
+                $('#faPhone').val(data.faPhone);
+                $('#moName').val(data.moName);
+                $('#moPhone').val(data.moPhone);
+                $('#specialize').val(data.specialize);
+                $('#avatar').attr("src", "/storage/images/" + avatar);
+
+                $("#addEditTeacher").find(".modal-title").text("Chỉnh sửa");
+                $("#addEditTeacher").find(".btn-success").text("Cập nhật");
+                $("#addEditTeacher").modal('show');
+            }
+        }
+    })
 }
 
 
+teacher.reset = function () {
+    $("#avatar").val('');
+    $("#nation").val('');
+    $("#phone").val('');
+    $("#email").val('');
+    $("#fullName").val('');
+    $("#gender").val('');
+    $("#faName").val('');
+    $("#faPhone").val('');
+    $("#moName").val('');
+    $("#moPhone").val('');
+    $("#address").val('');
+    $("#specialize").val('');
+    $('#addEditTeacher').find(".modal-title").text("Thêm mới giáo viên");
+    $('#addEditTeacher').find(".btn-success").text("save");
+}
 
-function updateModelProduct(data) {
-    let product = data.closest('tr').children;
-    console.log(product);
-    $('#name').val(product[1].innerText);
-    $('#price').val(product[3].innerText);
-    $('#information').val(product[4].innerText);
-    $('#file').val(product[2].innerText);
-    $('#idCustomer').val(data.closest('tr').dataset.id);
+
+teacher.deletee = function (id) {
+    bootbox.confirm({
+        title: "Remove employee?",
+        message: "Bạn chắc chắn muốn xóa?",
+        buttons: {
+            cancel: {
+                label: '<i class="fa fa-times"></i> No'
+            },
+            confirm: {
+                label: '<i class="fa fa-check"></i> Yes'
+            }
+        }, callback: function (result) {
+            if(result){
+                $.ajax({
+                    url: `http://127.0.0.1:8000/admin/teacher/delete/${id}`,
+                    method: "GET",
+                    dataType: "json",
+                    success: function(){
+                        alertify.success('Xóa thành công');
+                        teacher.showAll();
+                    }
+                })
+            }
+        }
+    })
+}
+
+
+teacher.uploadAvatar = function (element) {
+    let img = element.files[0];
+    let reader = new FileReader();
+    reader.onloadend = function () {
+        $("#avatar").attr("src", reader.result);
+    }
+    reader.readAsDataURL(img);
 }
 
 teacher.init = function () {
@@ -122,3 +248,4 @@ teacher.init = function () {
 $(document).ready(function () {
     teacher.init();
 });
+

@@ -13,9 +13,9 @@
                         </div>
                         <div class="row w3-res-tb">
                             <div class="col-sm-3">
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProduct">
+                                <a type="button" class="btn btn-primary" onclick="teacher.openModal()">
                                     Thêm mới
-                                </button>
+                                </a>
                             </div>
                         </div>
                         <div class="table-responsive" id="loadtable">
@@ -40,7 +40,7 @@
 
                         <!-- addModal -->
 
-                        <div class="modal fade" id="addProduct" tabindex="-1" role="dialog"
+                        <div class="modal fade" id="addEditTeacher" tabindex="-1" role="dialog"
                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
@@ -51,31 +51,34 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form enctype="multipart/form-data" id="form_input">
+                                        <form enctype="multipart/form-data" id="frAddEditTeacher">
                                             <div class="form-row">
+                                                <input hidden name="teacherId" id="teacherId" value="0">
                                                 <div class="form-group col-md-5">
 
                                                     <div class="row form-group divUpload">
                                                         <label for="file-upload" class="custom-file-upload">
-                                                            +
-                                                            <img src="#" alt="your image" id="avatar"
+                                                            <img src="/storage/images/unnamed.jpg" alt="your image" id="avatar"
                                                                 style="width:200px; height:200px">
                                                         </label>
                                                         <input id="file-upload" type="file"
-                                                            onchange="teacher.uploadAvatar(this)" name="inputFile" />
+                                                            onchange="teacher.uploadAvatar(this)" name="inputFile" accept="image/*"/>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label for="nation">Quốc tịch</label>
                                                         <input type="text" class="form-control" id="nation" name="nation">
+                                                        @error('nation')
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="phone">Số điện thoại</label>
                                                         <input type="number" class="form-control" id="phone" name="phone">
+                                                        @error('phone')
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="email">Email</label>
                                                         <input type="email" class="form-control" id="email" name="email">
+                                                        @error('email')
                                                     </div>
                                                 </div>
 
@@ -83,31 +86,36 @@
 
                                                     <div class="form-group">
                                                         <label for="name">Tên</label>
-                                                        <input type="text" class="form-control" id="name" name="name">
+                                                        <input type="text" class="form-control" id="fullName" name="fullName">
+                                                        @error('fullName')
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label for="specialize">Chuyên môn</label>
                                                         <input type="text" class="form-control" id="specialize"
                                                             name="specialize">
+                                                            @error('specialize')
                                                     </div>
                                                     <div class="form-row form-group">
                                                         <div class="col-md-7">
                                                             <label for="dateOfBirth">Ngày sinh</label>
-                                                            <input type="date" class="form-control" id="inputName"
+                                                            <input type="date" class="form-control" id="dateOfBirth"
                                                                 name="dateOfBirth">
+                                                                @error('dateOfBirth')
                                                         </div>
                                                         <div class="col-md-5">
                                                             <label for="">Giới tính</label>
-                                                            <select class="custom-select form-control" name="gender">
+                                                            <select class="custom-select form-control" name="gender"
+                                                                id="gender">
                                                                 <option value="0">Nữ</option>
                                                                 <option value="1">Nam</option>
                                                             </select>
+                                                            @error('gender')
                                                         </div>
                                                     </div>
 
                                                     <div>
-                                                        <p> Thông tin liên hệ</p>
+                                                        <p class="text-center mt-3"> Thông tin liên hệ</p>
 
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6">
@@ -138,13 +146,14 @@
                                                         <label for="address">Địa chỉ</label>
                                                         <textarea class="form-control" id="address" name="address"
                                                             rows="3"></textarea>
+                                                            @error('address')
                                                     </div>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
-                                        <a href="javascript:;" type="button" class="btn btn-primary"
+                                        <a href="javascript:;" type="button" class="btn btn-success"
                                             onclick="teacher.save()">Save</a>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     </div>
@@ -265,7 +274,7 @@
         </div> --}}
 
         {{-- modal-show --}}
-        <div class="modal fade" id="detailProduct" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+        <div class="modal fade" id="detailteacher" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -275,13 +284,13 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body d-flex">
-                        <div class="div-flex">
-                            <div class="colImage">
-                                <span id="imageDiv"> </span>
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="col-md-5">
+                                <div id="imageDiv"></div>
                             </div>
-                            <div class="colContent">
-                                <p id="nameDiv">Họ và tên:</p>
+                            <div class="col-md-7">
+                                <p id="nameDiv"></p>
                                 <p id="DateOBDiv"></p>
                                 <p id="genderDiv"></p>
                                 <p id="phoneDiv"></p>
@@ -290,11 +299,9 @@
                                 <p id="addressDiv"></p>
                                 <p id="emailDiv"></p>
                             </div>
-
                         </div>
-
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" onclick="teacher.resetShow()">Close</button>
                         </div>
 
                     </div>
