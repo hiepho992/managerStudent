@@ -3168,4 +3168,6 @@ input[type="file"] {
     display: none;
 }
 
-
+#modalBody{
+    height: 500px;
+}

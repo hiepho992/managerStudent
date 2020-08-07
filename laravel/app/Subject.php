@@ -17,4 +17,9 @@ class Subject extends Model
         return $this->hasMany(Score::class, 'subject_id', 'id');
     }
 
+    public function classe()
+    {
+        return $this->belongsTo(Classe::class, 'classe_id', 'id');
+    }
+
 }

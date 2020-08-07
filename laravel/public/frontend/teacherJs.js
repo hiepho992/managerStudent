@@ -83,6 +83,7 @@ teacher.openModal = function () {
 }
 
 teacher.save = function () {
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -90,30 +91,14 @@ teacher.save = function () {
     });
     // if($('#frAddEditTeacher').valid()){
     if ($('#teacherId').val() == 0) {
-        var craeteObj = {};
-        craeteObj.fullName = $('#fullName').val();
-        craeteObj.dateOfBirth = $('#dateOfBirth').val();
-        craeteObj.gender = $('#gender').val();
-        craeteObj.nation = $('#nation').val();
-        craeteObj.phone = $('#phone').val();
-        craeteObj.email = $('#email').val();
-        craeteObj.address = $('#address').val();
-        craeteObj.faName = $('#faName').val();
-        craeteObj.faPhone = $('#faPhone').val();
-        craeteObj.moName = $('#moName').val();
-        craeteObj.moPhone = $('#moPhone').val();
-        craeteObj.specialize = $('#specialize').val();
-        craeteObj.image = $('#avatar').attr("src");
-
         $.ajax({
             url: "http://127.0.0.1:8000/admin/teacher/create",
-            method: "POST",
-            _token: '{{ csrf_token() }}',
-            dataType: "json",
-            contentType: "application/json",
-            data: JSON.stringify(craeteObj),
+            method: 'POST',
+            dataType: 'json',
+            data: new FormData($("#frAddEditTeacher")[0]),
+            contentType: false,
+            processData: false,
             success: function (data) {
-
                 $("#addEditTeacher").modal('hide');
                 teacher.showAll();
                 alertify.success('Thêm thành công');
@@ -123,6 +108,7 @@ teacher.save = function () {
 
     } else {
         var updateObj = {};
+        updateObj.id = $('#teacherId').val();
         updateObj.fullName = $('#fullName').val();
         updateObj.dateOfBirth = $('#dateOfBirth').val();
         updateObj.gender = $('#gender').val();
@@ -135,12 +121,14 @@ teacher.save = function () {
         updateObj.moName = $('#moName').val();
         updateObj.moPhone = $('#moPhone').val();
         updateObj.specialize = $('#specialize').val();
-        updateObj.image = $('#avatar').attr("src");
+        updateObj.image = $('#avatar').get(0).files;
+        // updateObj.image =  $('#avatar').attr('src');
+
+
 
         $.ajax({
             url: `http://127.0.0.1:8000/admin/teacher/update/${updateObj.id}`,
             method: "POST",
-            _token: '{{ csrf_token() }}',
             dataType: "json",
             contentType: "application/json",
             data: JSON.stringify(updateObj),
@@ -175,6 +163,7 @@ teacher.get = function (id) {
                 $('#moName').val(data.moName);
                 $('#moPhone').val(data.moPhone);
                 $('#specialize').val(data.specialize);
+                $('#teacherId').val(data.id);
                 $('#avatar').attr("src", "/storage/images/" + avatar);
 
                 $("#addEditTeacher").find(".modal-title").text("Chỉnh sửa");
@@ -187,7 +176,8 @@ teacher.get = function (id) {
 
 
 teacher.reset = function () {
-    $("#avatar").val('');
+    $('#avatar').attr("src", "/storage/images/unnamed.jpg");
+    $("#dateOfBirth").val('');
     $("#nation").val('');
     $("#phone").val('');
     $("#email").val('');
@@ -216,12 +206,12 @@ teacher.deletee = function (id) {
                 label: '<i class="fa fa-check"></i> Yes'
             }
         }, callback: function (result) {
-            if(result){
+            if (result) {
                 $.ajax({
                     url: `http://127.0.0.1:8000/admin/teacher/delete/${id}`,
                     method: "GET",
                     dataType: "json",
-                    success: function(){
+                    success: function () {
                         alertify.success('Xóa thành công');
                         teacher.showAll();
                     }

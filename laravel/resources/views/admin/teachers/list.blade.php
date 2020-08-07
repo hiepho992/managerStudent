@@ -50,8 +50,9 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body">
+                                    <div class="modal-body" id="modalBody">
                                         <form enctype="multipart/form-data" id="frAddEditTeacher">
+                                            @csrf
                                             <div class="form-row">
                                                 <input hidden name="teacherId" id="teacherId" value="0">
                                                 <div class="form-group col-md-5">
@@ -64,58 +65,8 @@
                                                         <input id="file-upload" type="file"
                                                             onchange="teacher.uploadAvatar(this)" name="inputFile" accept="image/*"/>
                                                     </div>
-
-                                                    <div class="form-group">
-                                                        <label for="nation">Quốc tịch</label>
-                                                        <input type="text" class="form-control" id="nation" name="nation">
-                                                        @error('nation')
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="phone">Số điện thoại</label>
-                                                        <input type="number" class="form-control" id="phone" name="phone">
-                                                        @error('phone')
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="email">Email</label>
-                                                        <input type="email" class="form-control" id="email" name="email">
-                                                        @error('email')
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group col-md-7">
-
-                                                    <div class="form-group">
-                                                        <label for="name">Tên</label>
-                                                        <input type="text" class="form-control" id="fullName" name="fullName">
-                                                        @error('fullName')
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label for="specialize">Chuyên môn</label>
-                                                        <input type="text" class="form-control" id="specialize"
-                                                            name="specialize">
-                                                            @error('specialize')
-                                                    </div>
-                                                    <div class="form-row form-group">
-                                                        <div class="col-md-7">
-                                                            <label for="dateOfBirth">Ngày sinh</label>
-                                                            <input type="date" class="form-control" id="dateOfBirth"
-                                                                name="dateOfBirth">
-                                                                @error('dateOfBirth')
-                                                        </div>
-                                                        <div class="col-md-5">
-                                                            <label for="">Giới tính</label>
-                                                            <select class="custom-select form-control" name="gender"
-                                                                id="gender">
-                                                                <option value="0">Nữ</option>
-                                                                <option value="1">Nam</option>
-                                                            </select>
-                                                            @error('gender')
-                                                        </div>
-                                                    </div>
-
                                                     <div>
-                                                        <p class="text-center mt-3"> Thông tin liên hệ</p>
+                                                        <p class="text-center mt-3"> Thông tin liên hệ người thân</p>
 
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6">
@@ -143,13 +94,80 @@
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
+                                                        <label for="nation">Quốc tịch</label>
+                                                        <input type="text" class="form-control" id="nation" name="nation">
+                                                        @error('nation')
+                                                        <p style="color: red">{{$message}}</p>
+                                                        @enderror
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="form-group col-md-7">
+
+                                                    <div class="form-group">
+                                                        <label for="name">Tên</label>
+                                                        <input type="text" class="form-control" id="fullName" name="fullName">
+                                                        @error('fullName')
+                                                        <p style="color: red">{{$message}}</p>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="phone">Số điện thoại</label>
+                                                        <input type="number" class="form-control" id="phone" name="phone">
+                                                        @error('phone')
+                                                        <p style="color: red">{{$message}}</p>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="email">Email</label>
+                                                        <input type="email" class="form-control" id="email" name="email">
+                                                        @error('email')
+                                                        <p style="color: red">{{$message}}</p>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="specialize">Chuyên môn</label>
+                                                        <input type="text" class="form-control" id="specialize"
+                                                            name="specialize">
+                                                            @error('specialize')
+                                                            <p style="color: red">{{$message}}</p>
+                                                            @enderror
+                                                    </div>
+                                                    <div class="form-row form-group">
+                                                        <div class="col-md-7">
+                                                            <label for="dateOfBirth">Ngày sinh</label>
+                                                            <input type="date" class="form-control" id="dateOfBirth"
+                                                                name="dateOfBirth">
+                                                                @error('dateOfBirth')
+                                                            <p style="color: red">{{$message}}</p>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <label for="">Giới tính</label>
+                                                            <select class="custom-select form-control" name="gender"
+                                                                id="gender">
+                                                                <option value="0">Nữ</option>
+                                                                <option value="1">Nam</option>
+                                                            </select>
+                                                            @error('gender')
+                                                            <p style="color: red">{{$message}}</p>
+                                                            @enderror
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="form-group">
                                                         <label for="address">Địa chỉ</label>
                                                         <textarea class="form-control" id="address" name="address"
                                                             rows="3"></textarea>
                                                             @error('address')
+                                                            <p style="color: red">{{$message}}</p>
+                                                            @enderror
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -174,104 +192,6 @@
             </section>
         </section>
 
-        <!-- editModel -->
-        {{-- <div class="modal fade" id="editProduct" tabindex="-1" role="dialog"
-            aria-labelledby="ModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="ModalLabel">Sửa</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form enctype="multipart/form-data" id="editForm_input">
-                            <div class="form-layout">
-                                <div class="div-left">
-                                    <div class="form-group">
-                                        <label for="editFile">File ảnh</label>
-                                        <input type="file" class="form-control-file" id="editFile" name="editFile">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="editDOB">Ngày sinh</label>
-                                        <input type="date" class="form-control" id="editDOB" name="editDOB">
-                                    </div>
-                                    <label for="">Giới tính</label>
-                                    <select class="custom-select" name="editGender">
-                                        <option value="0">Nữ</option>
-                                        <option value="1">Nam</option>
-                                    </select>
-                                    <div class="form-group">
-                                        <label for="editNation">Quốc tịch</label>
-                                        <input type="text" class="form-control" id="editNation" name="editNation">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="editPhone">Số điện thoại</label>
-                                        <input type="number" class="form-control" id="editPhone" name="editPhone">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="editEmail">Email</label>
-                                        <input type="email" class="form-control" id="editEmail" name="editEmail">
-                                    </div>
-                                </div>
-
-                                <div class="div-right">
-
-                                    <div class="form-group">
-                                        <label for="editName">Tên</label>
-                                        <input type="text" class="form-control" id="editName" name="editName">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="editSpecialize">Chuyên môn</label>
-                                        <input type="text" class="form-control" id="editSpecialize" name="editSpecialize">
-                                    </div>
-                                    <fieldset>
-                                        <legend><small>Thông tin liên hệ</small></legend>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="editFaName">Tên</label>
-                                                <input type="text" class="form-control" id="editFaName" name="editFaName">
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="editFaPhone">Số điện thoại</label>
-                                                <input type="number" class="form-control" id="editFaPhone"
-                                                    name="editFaPhone">
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="editMoName">Tên</label>
-                                                <input type="email" class="form-control" id="editMoName" name="editMoName">
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label for="editMoPhone">Số điện thoại</label>
-                                                <input type="number" class="form-control" id="editMoPhone"
-                                                    name="editMoPhone">
-                                            </div>
-                                        </div>
-                                    </fieldset>
-
-                                    <div class="form-group">
-                                        <label for="editAddress">Địa chỉ</label>
-                                        <textarea class="form-control" id="editAddress" name="editAddress"
-                                            rows="3"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col"> <button type="button" class="btn btn-primary"
-                                        onclick="addProduct()">Thêm</button></div>
-
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
 
         {{-- modal-show --}}
         <div class="modal fade" id="detailteacher" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"

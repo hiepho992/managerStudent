@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Classe;
+use App\Repositories\ClasseRepository;
 use Illuminate\Http\Request;
 
 class ClasseController extends Controller
 {
+    private $classeRepository;
+
+    public function __construct(ClasseRepository $classeRepository)
+    {
+        $this->classeRepository = $classeRepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +21,11 @@ class ClasseController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.classes.list');
+    }
+
+    public function apiClass(){
+        $classe = $this->classeRepository->all();
     }
 
     /**

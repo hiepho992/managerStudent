@@ -114,6 +114,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <span>Danh sách quản lý</span>
                         </a>
                         <ul class="sub">
+                            <li><a href="{{ route('class.list') }}">Quản lý lớp học</a></li>
                             <li><a href="{{ route('teacher.list') }}">Quản lý giáo viên</a></li>
                             <li><a href="#">Quản lý học viên</a></li>
                             <li><a href="">Quản lý điểm</a></li>

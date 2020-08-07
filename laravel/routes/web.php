@@ -48,4 +48,3 @@ Route::group(['prefix' => 'admin'], function () {
     });
 });
 
-Route::get('/teacher/list', 'ViewController@index')->name('view.teacher');

@@ -27,12 +27,12 @@ class CreateStudentsTable extends Migration
             $table->string('faPhone');
             $table->string('moName');
             $table->string('moPhone');
-            $table->unsignedInteger('classe_id')->nullable();
-            $table->foreign('classe_id')->references('id')->on('classes');
             $table->boolean('active')->default(true);
             $table->date('date_start');
             $table->date('date_end')->nullable();
             $table->softDeletes();
+            $table->unsignedInteger('classe_id')->nullable();
+            $table->foreign('classe_id')->references('id')->on('classes');
             $table->timestamps();
         });
     }

@@ -6,7 +6,7 @@ use App\Http\Requests\Validation;
 
 use App\Teacher;
 
-class TeacherRepository{
+class TeacherRepository implements TeacherRepositoryInterface{
 
     public function all(){
 
@@ -70,16 +70,15 @@ class TeacherRepository{
         $teachers->moPhone = request()->moPhone;
         $teachers->specialize = request()->specialize;
         $teachers->image = request()->inputFile;
-
-        // if(request()->hasFile('inputFile')){
-        //     $currentImg = $teachers->image;
-        //     if($currentImg){
-        //         Storage::delete(['/public/'. $currentImg]);
-        //     }
-        //     $image = request()->file('inputFile');
-        //     $path = $image->storeAs('images', 'public');
-        //     $teachers->image = $path;
-        // }
+        if(request()->hasFile('inputFile')){
+            $currentImg = $teachers->image;
+            if($currentImg){
+                Storage::delete(['/public/'. $currentImg]);
+            }
+            $image = request()->file('inputFile');
+            $path = $image->storeAs('images', 'public');
+            $teachers->image = $path;
+        }
         // $teachers->update($data);
         $teachers->save();
 

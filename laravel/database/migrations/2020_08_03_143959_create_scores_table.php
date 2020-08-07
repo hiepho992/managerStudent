@@ -15,11 +15,10 @@ class CreateScoresTable extends Migration
     {
         Schema::create('scores', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('times');
-            $table->string('listening');
-            $table->string('skeaking');
-            $table->string('reading');
-            $table->string('writing');
+            $table->string('listening')->default(0);
+            $table->string('skeaking')->default(0);
+            $table->string('reading')->default(0);
+            $table->string('writing')->default(0);
             $table->unsignedInteger('student_id')->nullable();
             $table->foreign('student_id')->references('id')->on('students');
             $table->unsignedInteger('subject_id')->nullable();
