@@ -2,84 +2,62 @@
 
 namespace App\Http\Controllers;
 
+use App\Classe;
+use App\Http\Requests\ValidateStudent;
 use App\Student;
 use Illuminate\Http\Request;
+use App\Repositories\StudentRepository;
 
 class StudentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private $studentRepository;
+
+    public function __construct(StudentRepository $studentRepository)
+    {
+        $this->studentRepository = $studentRepository;
+    }
+
     public function index()
     {
-        return view('admin.students.list');
+        $classe = Classe::all();
+
+        return view('admin.students.list', compact('classe'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function create(ValidateStudent $request)
     {
-        //
+        $students = $this->studentRepository->createStudent($request);
+
+        return response()->json($students, 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function show()
     {
-        //
+        $students = $this->studentRepository->all();
+
+        return response()->json($students);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Student  $student
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Student $student)
+
+    public function get($id)
     {
-        //
+        $students = $this->studentRepository->getStudent($id);
+
+        return response()->json($students, 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Student  $student
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Student $student)
+
+    public function update(ValidateStudent $request, $id)
     {
-        //
+        $students = $this->studentRepository->updateStudent($request, $id);
+
+        return response()->json($students, 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Student  $student
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Student $student)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Student  $student
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Student $student)
+    public function destroy($id)
     {
-        //
+        return $this->studentRepository->delete($id);
     }
 }

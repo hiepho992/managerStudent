@@ -17,6 +17,6 @@ class Teacher extends Model
     }
 
     public function students(){
-        return $this->hasManyThrough(Student::class, Classe::class, 'teacher_id', 'classe_id', 'id');
+        return $this->hasManyThrough(Student::class, Classe::class, 'teacher_id', 'classe_id', 'id', 'id');
     }
 }

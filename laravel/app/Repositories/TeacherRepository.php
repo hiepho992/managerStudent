@@ -1,46 +1,40 @@
 <?php
 namespace App\Repositories;
+
+use App\Classe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Validation;
-
+use App\Student;
 use App\Teacher;
 
 class TeacherRepository implements TeacherRepositoryInterface{
 
     public function all(){
 
-        $teachers = Teacher::all();
+        $teachers = Teacher::select('teachers.*', 'classes.name AS nameClass')
+        ->join('classes', 'teachers.classe_id', '=' ,'classes.id')
+        ->get();
 
         return $teachers;
     }
 
-    public function createTeacher(){
-        // $data = Validation::make(request()->all());
-        // $teachers = Teacher::create($data);
+    public function createTeacher($request){
         $teachers = new Teacher();
-        $teachers->fullName = request()->fullName;
-        $teachers->dateOfBirth = request()->dateOfBirth;
-        $teachers->gender = request()->gender;
-        $teachers->nation = request()->nation;
-        $teachers->phone = request()->phone;
-        $teachers->email = request()->email;
-        $teachers->address = request()->address;
-        $teachers->faName = request()->faName;
-        $teachers->faPhone = request()->faPhone;
-        $teachers->moName = request()->moName;
-        $teachers->moPhone = request()->moPhone;
-        $teachers->specialize = request()->specialize;
-        $teachers->image = request()->inputFile;
-        if(request()->hasFile('inputFile')){
-            $imageName = rand(1,9999). '.' .request()->file('inputFile')->getClientOriginalExtension();
-            request()->file('inputFile')->storeAs('public/images', $imageName);
-            $teachers->image = $imageName;
-        }
+        $teachers->fullName = $request->fullName;
+        $teachers->dateOfBirth = $request->dateOfBirth;
+        $teachers->gender = $request->gender;
+        $teachers->nation = $request->nation;
+        $teachers->phone = $request->phone;
+        $teachers->email = $request->email;
+        $teachers->address = $request->address;
+        $teachers->salary = $request->salary;
+        $teachers->specialize = $request->specialize;
+        $teachers->image = $request->image64;
+        $teachers->classe_id = $request->classe;
         $teachers->save();
 
         return $teachers;
-
     }
 
     public function showTeacher($id){
@@ -54,33 +48,21 @@ class TeacherRepository implements TeacherRepositoryInterface{
         return Teacher::destroy($id);
     }
 
-    public function update($id){
+    public function update( $request ,$id){
         $teachers = Teacher::findOrFail($id);
-        // $data = request()->all();
-        $teachers->fullName = request()->fullName;
-        $teachers->dateOfBirth = request()->dateOfBirth;
-        $teachers->gender = request()->gender;
-        $teachers->nation = request()->nation;
-        $teachers->phone = request()->phone;
-        $teachers->email = request()->email;
-        $teachers->address = request()->address;
-        $teachers->faName = request()->faName;
-        $teachers->faPhone = request()->faPhone;
-        $teachers->moName = request()->moName;
-        $teachers->moPhone = request()->moPhone;
-        $teachers->specialize = request()->specialize;
-        $teachers->image = request()->inputFile;
-        if(request()->hasFile('inputFile')){
-            $currentImg = $teachers->image;
-            if($currentImg){
-                Storage::delete(['/public/'. $currentImg]);
-            }
-            $image = request()->file('inputFile');
-            $path = $image->storeAs('images', 'public');
-            $teachers->image = $path;
-        }
-        // $teachers->update($data);
-        $teachers->save();
+        $teachers->fullName = $request->fullName;
+        $teachers->dateOfBirth = $request->dateOfBirth;
+        $teachers->gender = $request->gender;
+        $teachers->nation = $request->nation;
+        $teachers->phone = $request->phone;
+        $teachers->email = $request->email;
+        $teachers->address = $request->address;
+        $teachers->specialize = $request->specialize;
+        $teachers->salary = $request->salary;
+        $teachers->active = $request->action;
+        $teachers->image = $request->image64;
+        $teachers->classe_id = $request->classe;
+        $teachers->update();
 
         return $teachers;
     }

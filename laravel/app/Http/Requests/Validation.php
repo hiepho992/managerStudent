@@ -25,13 +25,15 @@ class Validation extends FormRequest
     {
         return [
         'fullName' => "required",
-        'dateOfBirth' => "required",
+        'dateOfBirth' => "required|before:tomorrow",
         'gender' => "required",
         'nation' => "required",
-        'phone' => "required|regex:/(0)[0-9]{8}/",
-        'email' => "required|email|unique:users",
+        'phone' => "required|regex:/^(0)[0-9]{9}/|size:10",
+        'email' => "required|email",
         'address' => "required",
-        'pecialize' => "required",
+        'specialize' => "required",
+        'classe' => "required",
+        'salary' => "required|min:0|max:9",
         ];
     }
 
@@ -40,14 +42,20 @@ class Validation extends FormRequest
         return [
             'fullName.required' => "Bạn chưa nhập thông tin",
             'dateOfBirth.required' => "Bạn chưa nhập thông tin",
+            'dateOfBirth.before' => "Kiểm tra lại ngày đã chọn",
             'gender.required' => "Bạn chưa nhập thông tin",
             'nation.required' => "Bạn chưa nhập thông tin",
             'phone.required' => "Bạn chưa nhập thông tin",
             'phone.regex' => "Thông tin chưa đúng",
+            'phone.size' => "Thông tin phải 10 số",
             'email.required' => "Bạn chưa nhập thông tin",
             'email.email' => "Thông tin chưa đúng",
-            'address' => "required",
-            'pecialize' => "required",
+            'address.required' => "Bạn chưa nhập thông tin",
+            'specialize.required' => "Bạn chưa nhập thông tin",
+            'classe.required' => "Bạn chưa nhập thông tin",
+            'salary.required' => "Bạn chưa nhập thông tin",
+            'salary.max' => "Giới hạn 9 số",
+            'salary.min' => "Thông tin không được âm",
         ];
     }
 }

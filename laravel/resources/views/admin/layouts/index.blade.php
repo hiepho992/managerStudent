@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-    <title>Admin</title>
+    <title>@yield('title', 'Admin')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -51,8 +51,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- Bootstrap theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
     <script src="https://kit.fontawesome.com/91752fb16b.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel='stylesheet'/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.js" integrity="sha512-aVnPFUGTiptfhBMaq2MLZfzSbt0LZbP6Eb1yXpSHQ1YIgJaVvWvtKi0uQGggaeQH+irK/7xc1r44dDrpzt6BCw==" crossorigin="anonymous"></script>
+    <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel='stylesheet' />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.js"
+        integrity="sha512-aVnPFUGTiptfhBMaq2MLZfzSbt0LZbP6Eb1yXpSHQ1YIgJaVvWvtKi0uQGggaeQH+irK/7xc1r44dDrpzt6BCw=="
+        crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -61,8 +63,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <header class="header fixed-top clearfix">
         <!--logo start-->
         <div class="brand">
-            <a href="index.html" class="logo">
-                VISITORS
+            <a href="#" class="logo">
+                QUẢN LÝ
             </a>
             <div class="sidebar-toggle-box">
                 <div class="fa fa-bars"></div>
@@ -72,22 +74,32 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <div class="top-nav clearfix">
             <!--search & user info start-->
             <ul class="nav pull-right top-menu">
-                <li>
-                    <input type="text" class="form-control search" placeholder=" Search">
-                </li>
                 <!-- user login dropdown start-->
                 <li class="dropdown">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <img alt="" src="backend/images/2.png">
-                        @if(Auth::user())
-                        <span class="username">{{ Auth::user()->name }}</span>
+                        @if (Auth::user())
+                            <span class="username">{{ Auth::user()->name }}</span>
                         @endif
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu extended logout">
-                        <li><a href="#"><i class=" fa fa-suitcase"></i>Profile</a></li>
-                        <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
-                        <li><a href="/logout"><i class="fa fa-key"></i> Đăng xuất</a></li>
+                        @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}"><i
+                                        class="fas fa-users-cog"></i>{{ __('Register') }}</a>
+                            </li>
+                        @endif
+                        <li>
+                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();">
+                                <i class="fas fa-sign-out-alt"></i>
+                                {{ __('Logout') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </li>
                     </ul>
                 </li>
                 <!-- user login dropdown end -->
@@ -114,11 +126,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <span>Danh sách quản lý</span>
                         </a>
                         <ul class="sub">
+                            <li><a href="{{ route('subject.list') }}">Quản lý khóa học</a></li>
                             <li><a href="{{ route('class.list') }}">Quản lý lớp học</a></li>
                             <li><a href="{{ route('teacher.list') }}">Quản lý giáo viên</a></li>
-                            <li><a href="#">Quản lý học viên</a></li>
+                            <li><a href="{{ route('student.list') }}">Quản lý học viên</a></li>
                             <li><a href="">Quản lý điểm</a></li>
-                            <li><a href="#">Quản lý khóa học</a></li>
+
                         </ul>
                     </li>
 
@@ -135,7 +148,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- footer -->
     <div class="footer">
         <div class="wthree-copyright">
-            <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
+            <p>© 2020 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
         </div>
     </div>
     <!-- / footer -->
@@ -151,6 +164,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script src="{{ asset('backend/js/jquery.scrollTo.js') }}"></script>
     <!-- morris JavaScript -->
     <script src="{{ asset('frontend/teacherJs.js') }}"></script>
+    <script src="{{ asset('frontend/subjectJs.js') }}"></script>
+    <script src="{{ asset('frontend/classeJs.js') }}"></script>
+    <script src="{{ asset('frontend/studentJs.js') }}"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function() {

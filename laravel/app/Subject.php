@@ -19,7 +19,7 @@ class Subject extends Model
 
     public function classe()
     {
-        return $this->belongsTo(Classe::class, 'classe_id', 'id');
+        return $this->hasMany(Classe::class, 'subject_id', 'id');
     }
 
 }

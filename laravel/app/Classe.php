@@ -24,7 +24,7 @@ class Classe extends Model
 
     public function subjects(){
 
-        return $this->hasMany(Subject::class, 'classe_id', 'id');
+        return $this->belongsTo(Subject::class, 'subject_id', 'id');
     }
 
 }

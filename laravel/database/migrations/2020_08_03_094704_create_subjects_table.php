@@ -16,10 +16,6 @@ class CreateSubjectsTable extends Migration
         Schema::create('subjects', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->date('date_start');
-            $table->date('date_end');
-            $table->unsignedInteger('classe_id')->nullable();
-            $table->foreign('classe_id')->references('id')->on('classes');
             $table->softDeletes();
             $table->timestamps();
         });

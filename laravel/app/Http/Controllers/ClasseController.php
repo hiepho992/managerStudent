@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Classe;
+use App\Http\Requests\ValidateClasse;
 use App\Repositories\ClasseRepository;
+use App\Subject;
 use Illuminate\Http\Request;
 
 class ClasseController extends Controller
@@ -14,83 +16,52 @@ class ClasseController extends Controller
     {
         $this->classeRepository = $classeRepository;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        return view('admin.classes.list');
+        $subject = Subject::all();
+        return view('admin.classes.list', compact('subject'));
     }
 
-    public function apiClass(){
+    public function create(ValidateClasse $request)
+    {
+        $classe = $this->classeRepository->createClasse($request);
+
+        return response()->json($classe, 200);
+    }
+
+
+    public function show()
+    {
         $classe = $this->classeRepository->all();
+
+        return response()->json($classe);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function edit($id)
     {
-        //
+        $classe = $this->classeRepository->editClasse($id);
+
+        return response()->json($classe);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+    public function update(ValidateClasse $request, $id)
     {
-        //
+        $classe = $this->classeRepository->updateClasse($request, $id);
+
+        return response()->json($classe, 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Classe  $classe
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Classe $classe)
+    public function destroy($id)
     {
-        //
+        return $this->classeRepository->deleteClasse($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Classe  $classe
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Classe $classe)
-    {
-        //
-    }
+    public function getStudent($id){
+        $students = $this->classeRepository->getStudent($id);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Classe  $classe
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Classe $classe)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Classe  $classe
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Classe $classe)
-    {
-        //
+        return response()->json($students);
     }
 }

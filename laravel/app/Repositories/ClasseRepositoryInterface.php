@@ -3,12 +3,14 @@ namespace App\Repositories;
 interface ClasseRepositoryInterface{
     public function all();
 
-    public function createTeacher();
+    public function createClasse($classe);
 
-    public function showTeacher($classeId);
+    public function editClasse($classeId);
 
-    public function deleteTeacher($classeId);
+    public function deleteClasse($classeId);
 
-    public function update($classeId);
+    public function updateClasse($request, $classeId);
+
+    public function getStudent($classeId);
 }
 ?>

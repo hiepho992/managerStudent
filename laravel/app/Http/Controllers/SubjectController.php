@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ValidateSubject;
+use App\Repositories\SubjectRepository;
 use App\Subject;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
+    private $subjectRepository;
+
+    public function __construct(SubjectRepository $subjectRepository)
+    {
+        $this->subjectRepository = $subjectRepository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,7 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.subjects.list');
     }
 
     /**
@@ -22,9 +30,11 @@ class SubjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(ValidateSubject $request)
     {
-        //
+        $subject = $this->subjectRepository->createSubject($request);
+
+        return response()->json($subject, 200);
     }
 
     /**
@@ -44,9 +54,11 @@ class SubjectController extends Controller
      * @param  \App\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function show(Subject $subject)
+    public function show()
     {
-        //
+        $subject = $this->subjectRepository->all();
+
+        return response()->json($subject);
     }
 
     /**
@@ -55,9 +67,11 @@ class SubjectController extends Controller
      * @param  \App\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function edit(Subject $subject)
+    public function edit($id)
     {
-        //
+        $subject = $this->subjectRepository->showId($id);
+
+        return response()->json($subject);
     }
 
     /**
@@ -67,9 +81,11 @@ class SubjectController extends Controller
      * @param  \App\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Subject $subject)
+    public function update(ValidateSubject $request, $id)
     {
-        //
+        $subject = $this->subjectRepository->update($request, $id);
+
+        return response()->json($subject, 200);
     }
 
     /**
@@ -78,8 +94,10 @@ class SubjectController extends Controller
      * @param  \App\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Subject $subject)
+    public function destroy($id)
     {
-        //
+        return  $this->subjectRepository->delete($id);
+
+
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Classe;
+use App\Http\Requests\Validation;
 use App\Teacher;
 use Illuminate\Http\Request;
 use App\Repositories\TeacherRepository;
@@ -14,14 +16,11 @@ class TeacherController extends Controller
     {
         $this->teacherRepository = $teacherRepository;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        return view('admin.teachers.list');
+        $classe = Classe::all();
+        return view('admin.teachers.list', compact('classe'));
     }
 
     public function apiGetGV()
@@ -30,26 +29,15 @@ class TeacherController extends Controller
 
         return response()->json($teachers);
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function create(Validation $request)
     {
-        $teachers = $this->teacherRepository->createTeacher();
+       $teachers = $this->teacherRepository->createTeacher($request);
 
-        return response()->json($teachers);
-
+       return response()->json($teachers);
     }
 
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Teacher  $teacher
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $show = $this->teacherRepository->showTeacher($id);
@@ -58,26 +46,14 @@ class TeacherController extends Controller
     }
 
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Teacher  $teacher
-     * @return \Illuminate\Http\Response
-     */
-    public function update($id)
+    public function update(Validation $request, $id)
     {
-        $teachers = $this->teacherRepository->update($id);
+        $teachers = $this->teacherRepository->update($request, $id);
 
         return response()->json($teachers);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Teacher  $teacher
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         return $this->teacherRepository->deleteTeacher($id);
