@@ -85,8 +85,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <ul class="dropdown-menu extended logout">
                         @if (Route::has('register'))
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}"><i
-                                        class="fas fa-users-cog"></i>{{ __('Register') }}</a>
+                                <a class="nav-link" href="{{ route('register') }}">
+                                    <i class="fas fa-users-cog"></i>{{ __('Register') }}</a>
                             </li>
                         @endif
                         <li>
@@ -102,10 +102,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         </li>
                     </ul>
                 </li>
-                <!-- user login dropdown end -->
-
             </ul>
-            <!--search & user info end-->
         </div>
     </header>
     <aside>

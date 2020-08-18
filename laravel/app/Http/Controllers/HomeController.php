@@ -39,9 +39,9 @@ class HomeController extends Controller
         return view('admin.layouts.dashboard', compact('classeCount', 'subjectCount', 'countTeacher', 'studentCount'));
     }
 
-    // public function register(){
+    public function register(){
 
-    //     return view('auth.register');
-    // }
+        return view('auth.register');
+    }
 
 }
