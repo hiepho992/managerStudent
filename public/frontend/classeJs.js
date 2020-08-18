@@ -1,7 +1,7 @@
 var classe = classe || {};
 classe.show = function () {
     $.ajax({
-        url: "http://127.0.0.1:8000/admin/class/show",
+        url: "http://quanlyhocvien-acb.herokuapp.com/admin/class/show",
         method: "GET",
         dataType: "json",
         success: function (data) {
@@ -38,7 +38,7 @@ classe.create = function () {
         }
     });
     $.ajax({
-        url: "http://127.0.0.1:8000/admin/class/create",
+        url: "http://quanlyhocvien-acb.herokuapp.com/admin/class/create",
         method: "POST",
         dataType: "json",
         data: new FormData($('#frAddEditClass')[0]),
@@ -79,7 +79,7 @@ classe.update = function () {
         }
     });
     $.ajax({
-        url: `http://127.0.0.1:8000/admin/class/update/${id}`,
+        url: `http://quanlyhocvien-acb.herokuapp.com/admin/class/update/${id}`,
         method: "POST",
         data: new FormData($('#frAddEditClass')[0]),
         contentType: false,
@@ -114,7 +114,7 @@ classe.update = function () {
 
 classe.get = function (id) {
     $.ajax({
-        url: `http://127.0.0.1:8000/admin/class/edit/${id}`,
+        url: `http://quanlyhocvien-acb.herokuapp.com/admin/class/edit/${id}`,
         method: "GET",
         dataType: "json",
         success: function (data) {
@@ -147,7 +147,7 @@ classe.deletee = function(id){
         }, callback: function (result) {
             if (result) {
                 $.ajax({
-                    url: `http://127.0.0.1:8000/admin/class/delete/${id}`,
+                    url: `http://quanlyhocvien-acb.herokuapp.com/admin/class/delete/${id}`,
                     method: "DELETE",
                     dataType: "json",
                     success: function () {
@@ -162,7 +162,7 @@ classe.deletee = function(id){
 
 classe.getStudent = function(id){
     $.ajax({
-        url: `http://127.0.0.1:8000/admin/class/getStudent/${id}`,
+        url: `http://quanlyhocvien-acb.herokuapp.com/admin/class/getStudent/${id}`,
         method: "GET",
         dataType: "json",
         success: function (data) {

@@ -2,7 +2,7 @@ var student = student || {};
 
 student.show = function () {
     $.ajax({
-        url: "http://127.0.0.1:8000/admin/student/show",
+        url: "http://quanlyhocvien-acb.herokuapp.com/admin/student/show",
         method: "GET",
         dataType: "json",
         success: function (data) {
@@ -69,7 +69,7 @@ student.save = function () {
         }
     });
     $.ajax({
-        url: "http://127.0.0.1:8000/admin/student/create",
+        url: "http://quanlyhocvien-acb.herokuapp.com/admin/student/create",
         method: 'POST',
         dataType: 'json',
         data: new FormData($("#frAddEditStudent")[0]),
@@ -130,7 +130,7 @@ student.update = function () {
         }
     });
     $.ajax({
-        url: `http://127.0.0.1:8000/admin/student/update/${id}`,
+        url: `http://quanlyhocvien-acb.herokuapp.com/admin/student/update/${id}`,
         method: "POST",
         dataType: "json",
         data: new FormData($("#frAddEditStudent")[0]),
@@ -200,7 +200,7 @@ student.deletee = function (id) {
         }, callback: function (result) {
             if (result) {
                 $.ajax({
-                    url: `http://127.0.0.1:8000/admin/student/delete/${id}`,
+                    url: `http://quanlyhocvien-acb.herokuapp.com/admin/student/delete/${id}`,
                     method: "DELETE",
                     dataType: "json",
                     success: function () {
@@ -215,7 +215,7 @@ student.deletee = function (id) {
 
 student.get = function (id) {
     $.ajax({
-        url: `http://127.0.0.1:8000/admin/student/get/${id}`,
+        url: `http://quanlyhocvien-acb.herokuapp.com/admin/student/get/${id}`,
         method: "GET",
         dataType: "json",
         success: function (data) {

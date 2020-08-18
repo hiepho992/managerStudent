@@ -2,7 +2,7 @@ var subject = subject || {};
 
 subject.show = function () {
     $.ajax({
-        url: "http://127.0.0.1:8000/admin/subject/show",
+        url: "http://quanlyhocvien-acb.herokuapp.com/admin/subject/show",
         method: "GET",
         dataType: "json",
         success: function (data) {
@@ -37,7 +37,7 @@ subject.create = function () {
     });
 
     $.ajax({
-        url: "http://127.0.0.1:8000/admin/subject/create",
+        url: "http://quanlyhocvien-acb.herokuapp.com/admin/subject/create",
         method: 'POST',
         dataType: 'json',
         data: new FormData($("#frAddEditSubject")[0]),
@@ -66,7 +66,7 @@ subject.update = function () {
         }
     });
     $.ajax({
-        url: `http://127.0.0.1:8000/admin/subject/update/${id}`,
+        url: `http://quanlyhocvien-acb.herokuapp.com/admin/subject/update/${id}`,
         method: "POST",
         data: new FormData($('#frAddEditSubject')[0]),
         contentType: false,
@@ -90,7 +90,7 @@ subject.update = function () {
 
 subject.get = function (id) {
     $.ajax({
-        url: `http://127.0.0.1:8000/admin/subject/edit/${id}`,
+        url: `http://quanlyhocvien-acb.herokuapp.com/admin/subject/edit/${id}`,
         method: "GET",
         dataType: "json",
         success: function (data) {
@@ -140,7 +140,7 @@ subject.deletee = function(id){
         }, callback: function (result) {
             if (result) {
                 $.ajax({
-                    url: `http://127.0.0.1:8000/admin/subject/delete/${id}`,
+                    url: `http://quanlyhocvien-acb.herokuapp.com/admin/subject/delete/${id}`,
                     method: "DELETE",
                     dataType: "json",
                     success: function () {
